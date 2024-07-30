@@ -13,14 +13,14 @@ public class GameState {
      * Starts a new game by initializing the game state
      * and maintaining the main game loop.
      */
-    public void startGame() {
+    /*public void startGame() {
         initalize();
-    }
+    }*/
 
     /**
      * Initializes the game state with the starting positions of all {@link Piece} objects
      */
-    void initalize() {
+    public void initalize() {
         blacksTurn = true;
         pieces = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class GameState {
     /**
      * Moves a {@link Piece} in a specific turn.
      */
-    void makeMove() {
+    void makeMove(Move move) {
         // Wait for click on piece
         // TODO: Philipp, pls giv method
         // Get validMoves for piece
