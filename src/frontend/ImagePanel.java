@@ -9,14 +9,12 @@ import java.io.InputStream;
 
 public class ImagePanel extends JPanel {
     private final BufferedImage image;
-    private final int startX;
-    private final int startY;
+
     private final int scale;
 
     public ImagePanel(String path, int startX, int startY, int scale) {
         this.scale = scale;
-        this.startX = startX;
-        this.startY = startY;
+
         try {
             InputStream imageStream = getClass().getResourceAsStream(path);
             assert imageStream != null;
@@ -26,7 +24,7 @@ public class ImagePanel extends JPanel {
         }
 
         this.setOpaque(false);
-        this.setBounds(0, 0, startX + this.image.getWidth() * scale, startY + this.image.getHeight() * scale);
+        this.setBounds(startX, startY, this.image.getWidth() * scale, this.image.getHeight() * scale);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class ImagePanel extends JPanel {
             int imgWidth = this.image.getWidth() * this.scale;
             int imgHeight = this.image.getHeight() * this.scale;
 
-            g.drawImage(this.image, this.startX, this.startY, imgWidth, imgHeight, this);
+            g.drawImage(this.image, 0, 0, imgWidth, imgHeight, this);
         }
     }
 }

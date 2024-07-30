@@ -48,10 +48,9 @@ public class GameState {
      * Moves a {@link Piece} in a specific turn.
      */
     void makeMove(Move move) {
-        // Wait for click on piece
+        // apply move
         // TODO: Philipp, pls giv method
-        // Get validMoves for piece
-        // Change position of selected piece with selected move
+        // test if game finished
         promotionCheck();
         blacksTurn = !blacksTurn;
     }
