@@ -1,14 +1,13 @@
 package backend;
 
 import backend.utilities.Tuple;
+import frontend.GUI;
 
 import java.util.ArrayList;
 
 public class GameState {
-    ArrayList<Piece> black;
-    ArrayList<Piece> white;
-    boolean blacksTurn;
-    boolean playing;
+    public ArrayList<Piece> pieces;
+    public boolean blacksTurn;
 
     /**
      * Starts a new game by initializing the game state
@@ -16,36 +15,32 @@ public class GameState {
      */
     public void startGame() {
         initalize();
-        playing = true;
-
-        while (playing) {
-
-        }
     }
 
     /**
      * Initializes the game state with the starting positions of all {@link Piece} objects
      */
     void initalize() {
-        black = new ArrayList<>();
-        white = new ArrayList<>();
+        blacksTurn = true;
+        pieces = new ArrayList<>();
 
         Tuple<Integer, Integer>[] blackPos = new Tuple[] {
-                new Tuple<>(0,1), new Tuple<>(1,0), new Tuple<>(1,2), new Tuple<>(2,1), new Tuple<>(3,0),
-                new Tuple<>(3,2), new Tuple<>(4,1), new Tuple<>(5,0), new Tuple<>(5,2), new Tuple<>(6,1),
-                new Tuple<>(7,0), new Tuple<>(7,2)
+                new Tuple<>(0,7), new Tuple<>(1,0), new Tuple<>(1,2), new Tuple<>(2,1),
+                new Tuple<>(3,0), new Tuple<>(3,2), new Tuple<>(4,1), new Tuple<>(5,0),
+                new Tuple<>(5,2), new Tuple<>(6,1), new Tuple<>(7,0), new Tuple<>(7,2)
         };
         Tuple<Integer, Integer>[] whitePos = new Tuple[] {
-                new Tuple<>(0,7), new Tuple<>(0,5), new Tuple<>(1,6), new Tuple<>(2,7), new Tuple<>(2,5),
-                new Tuple<>(3,6), new Tuple<>(4,7), new Tuple<>(4,5), new Tuple<>(5,6), new Tuple<>(6,7),
-                new Tuple<>(6,5), new Tuple<>(7,6)
+                new Tuple<>(0,7), new Tuple<>(0,5), new Tuple<>(1,6), new Tuple<>(2,7),
+                new Tuple<>(2,5), new Tuple<>(3,6), new Tuple<>(4,7), new Tuple<>(4,5),
+                new Tuple<>(5,6), new Tuple<>(6,7), new Tuple<>(6,5), new Tuple<>(7,6)
         };
 
         for (Tuple<Integer,Integer> pos : blackPos) {
-            black.add(new Man(pos.x,pos.y));
+            pieces.add(new Man(pos.x,pos.y, Color.BLACK));
         }
+
         for (Tuple<Integer,Integer> pos : whitePos) {
-            white.add(new Man(pos.x,pos.y));
+            pieces.add(new Man(pos.x,pos.y, Color.WHITE));
         }
     }
 
@@ -53,17 +48,48 @@ public class GameState {
      * Moves a {@link Piece} in a specific turn.
      */
     void makeMove() {
-
+        // Wait for click on piece
+        // TODO: Philipp, pls giv method
+        // Get validMoves for piece
+        // Change position of selected piece with selected move
+        promotionCheck();
+        blacksTurn = !blacksTurn;
     }
 
-    boolean pieceIsGroundRow(Piece piece, boolean isBlack) {
-        return ((isBlack && piece.getY() == 7) || (!isBlack && piece.getY() == 0));
+    /**
+     * Removes a {@link Piece} at the given position
+     */
+    void removePiece(int x, int y) {
+        pieces.remove(getPieceAt(x, y));
+    }
+
+    /**
+     * Returns the {@link Piece} at the given position
+     */
+    Piece getPieceAt(int x, int y) {
+        for (Piece piece : pieces) {
+            if (piece.getX() == x && piece.getY() == y) { return piece; }
+        }
+        return null;
+    }
+
+    void promotionCheck() {
+        for(Piece piece : pieces) {
+            if (pieceIsGroundRow(piece)) { toKing(piece); }
+        }
+    }
+
+    boolean pieceIsGroundRow(Piece piece) {
+        return ((piece.color == Color.BLACK && piece.getY() == 7) || (piece.color == Color.WHITE && piece.getY() == 0));
     }
 
     /**
      * Upgrades a {@link Man} to a {@link King} {@link Piece}
      */
     void toKing(Piece piece) {
-
+        int x = piece.getX();
+        int y = piece.getY();
+        Color color = piece.getColor();
+        pieces.set(pieces.indexOf(piece), new King(x, y, color));
     }
 }
