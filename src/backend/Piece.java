@@ -4,7 +4,7 @@ import backend.utilities.Tuple;
 
 import java.util.ArrayList;
 
-public class Piece {
+public abstract class Piece {
     protected int x;
     protected int y;
 
