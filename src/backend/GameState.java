@@ -50,6 +50,9 @@ public class GameState {
         }
     }
 
+    /**
+     * Moves a {@link Piece} in a specific turn.
+     */
     void makeMove() {
 
     }
