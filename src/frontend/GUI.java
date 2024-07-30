@@ -1,17 +1,16 @@
 package frontend;
 
-import backend.GameState;
-import backend.King;
-import backend.Man;
-import backend.Piece;
-import backend.Move;
+import backend.*;
 import backend.utilities.Color;
 import backend.utilities.Tuple;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,15 +23,12 @@ import java.util.Objects;
 public class GUI extends JFrame {
     private final ImagePanel indicatorWhite;
     private final ImagePanel indicatorBlack;
-    private final ImagePanel debugBlobEnable;
-    private final ImagePanel debugBlobDisable;
     GameState test_gameState = new GameState(); // TODO: temp
-    private ArrayList<Tuple<ImagePanel, Piece>> figures = new ArrayList<>();
+    private final ArrayList<Tuple<ImagePanel, Piece>> figures = new ArrayList<>();
     private final JLayeredPane layeredPane = new JLayeredPane();
     private final Point startPosBoard = new Point(55, 45);
     private final Point startPosBlackBoard = new Point(702, 100);
     private final ArrayList<ImagePanel> markers = new ArrayList<>();
-    private boolean debug = false;
 
 
     public GUI() {
@@ -59,30 +55,65 @@ public class GUI extends JFrame {
         this.setContentPane(this.layeredPane);
 
         // Background Panel
-        ImagePanel background = new ImagePanel("res/background.png", 0, 0, 1);
+        ImagePanel background = new ImagePanel(
+                "res/background.png",
+                0,
+                0,
+                1
+        );
         this.layeredPane.add(background, JLayeredPane.DEFAULT_LAYER);
 
         // Border Image Panel
-        ImagePanel boardBorder = new ImagePanel("res/board_border.png", this.startPosBoard.x, this.startPosBoard.y, 4);
+        ImagePanel boardBorder = new ImagePanel(
+                "res/board_border.png",
+                this.startPosBoard.x,
+                this.startPosBoard.y,
+                4
+        );
         this.layeredPane.add(boardBorder, JLayeredPane.PALETTE_LAYER);
 
         // bg grid
-        ImagePanel boardBackground = new ImagePanel("res/board_bg.png", this.startPosBoard.x + 40, this.startPosBoard.y + 44, 1);
+        ImagePanel boardBackground = new ImagePanel(
+                "res/board_bg.png",
+                this.startPosBoard.x + 40,
+                this.startPosBoard.y + 44,
+                1
+        );
         this.layeredPane.add(boardBackground, JLayeredPane.MODAL_LAYER);
 
         // Player Indicator
-        this.indicatorWhite = new ImagePanel("res/current_player_indicator.png", 163, 649, 4);
-        this.indicatorBlack = new ImagePanel("res/current_player_indicator.png", 483, 649, 4);
+        this.indicatorWhite = new ImagePanel(
+                "res/current_player_indicator.png",
+                163,
+                649,
+                4
+        );
+        this.indicatorBlack = new ImagePanel(
+                "res/current_player_indicator.png",
+                483,
+                649,
+                4
+        );
         this.indicatorBlack.setVisible(false);
         this.layeredPane.add(this.indicatorWhite, JLayeredPane.MODAL_LAYER);
         this.layeredPane.add(this.indicatorBlack, JLayeredPane.MODAL_LAYER);
 
         // blackboard background
-        ImagePanel blackBoardBackground = new ImagePanel("res/black_board.png", this.startPosBlackBoard.x, this.startPosBlackBoard.y, 4);
+        ImagePanel blackBoardBackground = new ImagePanel(
+                "res/black_board.png",
+                this.startPosBlackBoard.x,
+                this.startPosBlackBoard.y,
+                4
+        );
         this.layeredPane.add(blackBoardBackground, JLayeredPane.MODAL_LAYER);
 
         // blackboard manual
-        ImagePanel blackBoardManual = new ImagePanel("res/manual.png", this.startPosBlackBoard.x + 24, this.startPosBlackBoard.y + 25, 4);
+        ImagePanel blackBoardManual = new ImagePanel(
+                "res/manual.png",
+                this.startPosBlackBoard.x + 24,
+                this.startPosBlackBoard.y + 25,
+                4
+        );
         blackBoardManual.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -92,42 +123,48 @@ public class GUI extends JFrame {
         this.layeredPane.add(blackBoardManual, JLayeredPane.DRAG_LAYER);
 
         // blackboard manual
-        ImagePanel blackBoardNewGame = new ImagePanel("res/new_game.png", this.startPosBlackBoard.x + 24, this.startPosBlackBoard.y + 73, 4);
+        ImagePanel blackBoardNewGame = new ImagePanel(
+                "res/new_game.png",
+                this.startPosBlackBoard.x + 24,
+                this.startPosBlackBoard.y + 73,
+                4
+        );
+        blackBoardNewGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NewGameDialog dialog = new NewGameDialog(GUI.this);
+                dialog.setVisible(true);
+
+                // After dialog is closed, retrieve the input data
+                String data = dialog.getInputData();
+                if (!data.isEmpty()) {
+                    System.out.println(data);
+                } else {
+                    System.out.println("No data found");
+                }
+            }
+        });
+
         this.layeredPane.add(blackBoardNewGame, JLayeredPane.DRAG_LAYER);
 
         // blackboard debug blob
-        this.debugBlobEnable = new ImagePanel("res/enabled_debug.png", this.startPosBlackBoard.x + 24, this.startPosBlackBoard.y + 121, 4);
-        this.debugBlobEnable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                debug = false;
-                debugBlobEnable.setVisible(false);
-                debugBlobDisable.setVisible(true);
-            }
-        });
-        this.debugBlobDisable = new ImagePanel("res/disabled_debug.png", this.startPosBlackBoard.x + 24, this.startPosBlackBoard.y + 121, 4);
-        this.debugBlobDisable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                debug = true;
-                debugBlobEnable.setVisible(true);
-                debugBlobDisable.setVisible(false);
-            }
-        });
-        this.debugBlobEnable.setVisible(false);
-        this.layeredPane.add(this.debugBlobEnable, JLayeredPane.DRAG_LAYER);
-        this.layeredPane.add(this.debugBlobDisable, JLayeredPane.DRAG_LAYER);
+        ToggleDebug toggleDebug = new ToggleDebug(
+                this.startPosBlackBoard.x + 24,
+                this.startPosBlackBoard.y + 121,
+                this.layeredPane
+        );
 
-        // temp
+        // begin temp
         test_gameState.blacksTurn = true;
         this.setPlayerIndicator(test_gameState);
         JButton button = new JButton("(temp): Toggle current player");
-        button.setBounds(700, 100+188, 200, 30);
+        button.setBounds(700, 100 + 188, 200, 30);
         button.addActionListener(e -> {
             test_gameState.blacksTurn = !test_gameState.blacksTurn;
             setPlayerIndicator(test_gameState);
         });
         this.layeredPane.add(button, JLayeredPane.MODAL_LAYER);
+        // end temp
 
         this.renderGamestate(test_gameState);
 
@@ -147,7 +184,9 @@ public class GUI extends JFrame {
     private void openManual() {
         if (Desktop.isDesktopSupported()) {
             try {
-                File myFile = new File(Objects.requireNonNull(getClass().getResource("res/manual.pdf")).toURI());
+                File myFile = new File(
+                        Objects.requireNonNull(getClass().getResource("res/manual.pdf")).toURI()
+                );
                 Desktop.getDesktop().open(myFile);
             } catch (IOException | URISyntaxException ex) {
                 ex.printStackTrace();
@@ -190,22 +229,22 @@ public class GUI extends JFrame {
 
     public void renderGamestate(GameState gst) {
         this.deleteAllPieces();
-        test_gameState.initalize();
+        gst.initalize();
 
-        for (Piece p : test_gameState.pieces) {
+        for (Piece p : gst.pieces) {
             this.placeFigure(p);
         }
     }
 
     public void deleteAllPieces() {
-        for(Tuple<ImagePanel, Piece> c : this.figures) {
+        for (Tuple<ImagePanel, Piece> c : this.figures) {
             this.layeredPane.remove(c.x);
             this.figures.remove(c);
         }
     }
 
     public void deleteAllMarkers() {
-        for(ImagePanel c : this.markers) {
+        for (ImagePanel c : this.markers) {
             this.layeredPane.remove(c);
             this.markers.remove(c);
         }
@@ -213,7 +252,12 @@ public class GUI extends JFrame {
 
     private void placePossibleMoveButton(Move move) {
         Tuple<Integer, Integer> endPos = move.getEnd();
-        ImagePanel marker = new ImagePanel("res/white_king.png", this.startPosBoard.x + 40 + 64 * endPos.x, this.startPosBoard.y + 44 + 64 * endPos.x, 4);
+        ImagePanel marker = new ImagePanel(
+                "res/white_king.png",
+                this.startPosBoard.x + 40 + 64 * endPos.x,
+                this.startPosBoard.y + 44 + 64 * endPos.x,
+                4
+        );
         this.markers.add(marker);
         this.layeredPane.add(marker, JLayeredPane.DRAG_LAYER);
     }
