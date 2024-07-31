@@ -25,8 +25,8 @@ public class GUI extends JFrame {
     private final Point startPosBoard = new Point(55, 45);
     private final Point startPosBlackBoard = new Point(702, 100);
     private final ArrayList<ImagePanel> markers = new ArrayList<>();
-    private final Piecestack piecestackWhite;
-    private final Piecestack piecestackBlack;
+    private final Piecestack pieceStackWhite;
+    private final Piecestack pieceStackBlack;
 
     GameState test_gameState = new GameState(); // TODO: temp
 
@@ -108,92 +108,82 @@ public class GUI extends JFrame {
         this.layeredPane.add(blackBoardBackground, JLayeredPane.MODAL_LAYER);
 
         // blackboard manual
-        ImagePanel blackBoardManual = new ImagePanel(
-                "res/manual.png",
+        CustomButton blackBoardManual = new CustomButton(
                 this.startPosBlackBoard.x + 24,
                 this.startPosBlackBoard.y + 25,
-                4
+                "res/manual.png",
+                this.layeredPane
         );
-        blackBoardManual.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                openManual();
-            }
+        blackBoardManual.addActionListener(e -> {
+            openManual();
         });
-        this.layeredPane.add(blackBoardManual, JLayeredPane.DRAG_LAYER);
 
-        // blackboard manual
-        ImagePanel blackBoardNewGame = new ImagePanel(
-                "res/new_game.png",
+        CustomButton blackBoardNewGame = new CustomButton(
                 this.startPosBlackBoard.x + 24,
                 this.startPosBlackBoard.y + 73,
-                4
+                "res/new_game.png",
+                this.layeredPane
         );
-        blackBoardNewGame.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                NewGameDialog dialog = new NewGameDialog(GUI.this);
-                dialog.setVisible(true);
+        blackBoardNewGame.addActionListener(e -> {
+            NewGameDialog dialog = new NewGameDialog(GUI.this);
+            dialog.setVisible(true);
 
-                String data = dialog.getInputData();
-                if (!data.isEmpty()) {
-                    System.out.println(data);
-                } else {
-                    System.out.println("No data found");
-                }
+            String data = dialog.getInputData();
+            if (!data.isEmpty()) {
+                System.out.println(data);
+            } else {
+                System.out.println("No data found");
             }
         });
 
-        this.layeredPane.add(blackBoardNewGame, JLayeredPane.DRAG_LAYER);
-
         // Stacks
-        this.piecestackWhite = new Piecestack(this.layeredPane, Color.WHITE, 700, 640);
-        this.piecestackBlack = new Piecestack(this.layeredPane, Color.BLACK, 750, 610);
+        this.pieceStackWhite = new Piecestack(this.layeredPane, Color.WHITE, 700, 640);
+        this.pieceStackBlack = new Piecestack(this.layeredPane, Color.BLACK, 750, 610);
 
-        // begin temp
-        JButton button = new JButton("(temp): black +");
-        button.setBounds(700, 100 + 188 + 70, 130, 30);
-        button.addActionListener(e -> {
-            piecestackBlack.increment();
-        });
-        button.setVisible(false);
-        this.layeredPane.add(button, JLayeredPane.MODAL_LAYER);
+        // begin debug
+            JButton button = new JButton("(temp): black +");
+            button.setBounds(700, 288 + 70, 130, 30);
+            button.addActionListener(e -> {
+                pieceStackBlack.increment();
+            });
+            button.setVisible(false);
+            this.layeredPane.add(button, JLayeredPane.MODAL_LAYER);
 
-        JButton button2 = new JButton("(temp): black -");
-        button2.setBounds(700, 100 + 188 + 40, 130, 30);
-        button2.addActionListener(e -> {
-            piecestackBlack.decrement();
-        });
-        button2.setVisible(false);
-        this.layeredPane.add(button2, JLayeredPane.MODAL_LAYER);
-        JButton buttona = new JButton("(temp): white +");
-        buttona.setBounds(830, 100 + 188 + 70, 130, 30);
-        buttona.addActionListener(e -> {
-            piecestackWhite.increment();
-        });
-        buttona.setVisible(false);
-        this.layeredPane.add(buttona, JLayeredPane.MODAL_LAYER);
+            JButton button2 = new JButton("(temp): black -");
+            button2.setBounds(700, 328, 130, 30);
+            button2.addActionListener(e -> {
+                pieceStackBlack.decrement();
+            });
+            button2.setVisible(false);
+            this.layeredPane.add(button2, JLayeredPane.MODAL_LAYER);
 
-        JButton button2a = new JButton("(temp): white -");
-        button2a.setBounds(830, 100 + 188 + 40, 130, 30);
-        button2a.addActionListener(e -> {
-            piecestackWhite.decrement();
-        });
-        button2a.setVisible(false);
-        this.layeredPane.add(button2a, JLayeredPane.MODAL_LAYER);
+            JButton button3 = new JButton("(temp): white +");
+            button3.setBounds(830, 358, 130, 30);
+            button3.addActionListener(e -> {
+                pieceStackWhite.increment();
+            });
+            button3.setVisible(false);
+            this.layeredPane.add(button3, JLayeredPane.MODAL_LAYER);
 
+            JButton button4 = new JButton("(temp): white -");
+            button4.setBounds(830, 328, 130, 30);
+            button4.addActionListener(e -> {
+                pieceStackWhite.decrement();
+            });
+            button4.setVisible(false);
+            this.layeredPane.add(button4, JLayeredPane.MODAL_LAYER);
 
-        test_gameState.blacksTurn = true;
-        this.setPlayerIndicator(test_gameState);
-        JButton button3 = new JButton("(temp): Toggle current player");
-        button3.setBounds(700, 100 + 188 + 10, 260, 30);
-        button3.addActionListener(e -> {
-            test_gameState.blacksTurn = !test_gameState.blacksTurn;
-            setPlayerIndicator(test_gameState);
-        });
-        button3.setVisible(false);
-        this.layeredPane.add(button3, JLayeredPane.MODAL_LAYER);
-        // end temp
+            test_gameState.blacksTurn = true;
+            this.setPlayerIndicator(test_gameState);
+            JButton button5 = new JButton("(temp): Toggle current player");
+            button5.setBounds(700, 298, 260, 30);
+            button5.addActionListener(e -> {
+                test_gameState.blacksTurn = !test_gameState.blacksTurn;
+                setPlayerIndicator(test_gameState);
+            });
+            button5.setVisible(false);
+            this.layeredPane.add(button5, JLayeredPane.MODAL_LAYER);
+        // end debug
 
 
         // blackboard debug blob
@@ -206,13 +196,13 @@ public class GUI extends JFrame {
             // System.out.println("DebugMode: " + toggleDebug.isSelected());
             button.setVisible(toggleDebug.isDebugEnabled());
             button2.setVisible(toggleDebug.isDebugEnabled());
-            buttona.setVisible(toggleDebug.isDebugEnabled());
-            button2a.setVisible(toggleDebug.isDebugEnabled());
             button3.setVisible(toggleDebug.isDebugEnabled());
+            button4.setVisible(toggleDebug.isDebugEnabled());
+            button5.setVisible(toggleDebug.isDebugEnabled());
 
         });
 
-        this.renderGamestate(test_gameState);
+        this.renderGameState(test_gameState);
 
         this.setVisible(true);
     }
@@ -273,7 +263,7 @@ public class GUI extends JFrame {
         }
     }
 
-    public void renderGamestate(GameState gst) {
+    public void renderGameState(GameState gst) {
         this.deleteAllPieces();
         gst.initalize();
 

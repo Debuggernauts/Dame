@@ -26,23 +26,16 @@ public class NewGameDialog extends JDialog {
 
         layeredPane.add(boardBorder, JLayeredPane.DEFAULT_LAYER);
 
-        ImagePanel okButton = new ImagePanel(
+        CustomButton okButton = new CustomButton(
+                0,
+                0,
                 "res/black_king.png",
-                0,
-                0,
-                4
+                layeredPane
         );
-        okButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                inputData = "test";
-                setVisible(false);
-            }
+        okButton.addActionListener(e -> {
+            inputData = "test";
+            setVisible(false);
         });
-        layeredPane.add(okButton, JLayeredPane.PALETTE_LAYER);
-
-
-
     }
 
     public String getInputData() {
