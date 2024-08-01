@@ -25,14 +25,14 @@ public class GameState {
         pieces = new ArrayList<>();
 
         Tuple<Integer, Integer>[] whitePos = new Tuple[] {
-                new Tuple<>(0,0), new Tuple<>(2,0), new Tuple<>(4,0), new Tuple<>(6,0),
-                new Tuple<>(1,1), new Tuple<>(3,1), new Tuple<>(5,1), new Tuple<>(7,1),
-                new Tuple<>(0,2), new Tuple<>(2,2), new Tuple<>(4,2), new Tuple<>(6,2)
+                new Tuple<>(0,7), new Tuple<>(2,7), new Tuple<>(4,7), new Tuple<>(6,7),
+                new Tuple<>(1,6), new Tuple<>(3,6), new Tuple<>(5,6), new Tuple<>(7,6),
+                new Tuple<>(0,5), new Tuple<>(2,5), new Tuple<>(4,5), new Tuple<>(6,5)
         };
         Tuple<Integer, Integer>[] blackPos = new Tuple[] {
-                new Tuple<>(1,5), new Tuple<>(3,5), new Tuple<>(7,5), new Tuple<>(0,6),
-                new Tuple<>(2,6), new Tuple<>(4,6), new Tuple<>(6,6), new Tuple<>(1,7),
-                new Tuple<>(3,7), new Tuple<>(5,7), new Tuple<>(7,7), new Tuple<>(5,5)
+                new Tuple<>(1,2), new Tuple<>(3,2), new Tuple<>(7,2), new Tuple<>(0,1),
+                new Tuple<>(2,1), new Tuple<>(4,1), new Tuple<>(6,1), new Tuple<>(1,0),
+                new Tuple<>(3,0), new Tuple<>(5,0), new Tuple<>(7,0), new Tuple<>(5,2)
         };
 
         for (Tuple<Integer,Integer> pos : blackPos) {
@@ -53,6 +53,16 @@ public class GameState {
         // test if game finished
         promotionCheck();
         blacksTurn = !blacksTurn;
+    }
+
+    // TODO: [Max] make sure only the moves with respect to the turn are calculated
+    ArrayList<Move> getAllValidMoves() {
+        ArrayList<Move> allMoves = new ArrayList<>();
+        for (Piece piece : pieces) {
+            ArrayList<Move> pieceMoves = piece.getValidMoves(this);
+            allMoves.addAll(pieceMoves);
+        }
+        return allMoves;
     }
 
     /**

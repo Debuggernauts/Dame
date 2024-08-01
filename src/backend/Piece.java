@@ -32,15 +32,49 @@ public abstract class Piece {
         this.y = y;
     }
 
-    public Color getColor() { return color; }
+    public Color getColor() {
+        return color;
+    }
 
-    public ArrayList<Move> getValidMoves() {
+    public ArrayList<Move> getValidMoves(GameState currentGameState) {
         ArrayList<Move> moves = new ArrayList<>();
-        moves.add(new Move(
-                new Tuple<>(0, 1),
-                new Tuple<>(1, 0)
-        ));
+
+        int y = this.color == Color.BLACK ? this.y-1 : this.y+1;
+        int xLeft = this.color == Color.BLACK ? this.x+1 : this.x-1;
+        int xRight = this.color == Color.BLACK ? this.x-1 : this.x+1;
+
+        Piece leftField = currentGameState.getPieceAt(xLeft,y);
+        Piece rightField = currentGameState.getPieceAt(xRight,y);
+
+        getMove(currentGameState, moves, leftField);
+        getMove(currentGameState, moves, rightField);
+
+        if (moves.isEmpty()) {
+            if (leftField == null) {
+                moves.add(new Move(
+                        new Tuple<Integer, Integer>(this.x, this.y),
+                        new Tuple<Integer, Integer>(xRight, y)
+                ));
+            }
+            if (rightField == null) {
+                moves.add(new Move(
+                        new Tuple<Integer, Integer>(this.x, this.y),
+                        new Tuple<Integer, Integer>(xRight, y)
+                ));
+            }
+        }
+
         return moves;
+    }
+
+    private void getMove(GameState currentGameState, ArrayList<Move> moves, Piece field) {
+        // TODO: [Max] This fuckery should not be final, pls fix u stupid cunt
+        if (field != null && currentGameState.getPieceAt(field.getX()-1, this.color == Color.BLACK ? field.getY()-1 : field.getY()+1) == null && field.getColor() != this.color) {
+            moves.add(new Move(
+                    new Tuple<Integer,Integer>(this.x, this.y),
+                    new Tuple<Integer,Integer>(field.getX()-1, field.getY())
+            ));
+        }
     }
 
     @Override
@@ -50,11 +84,17 @@ public abstract class Piece {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null || getClass() != obj.getClass()) { return false; }
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         Piece other = (Piece) obj;
 
-        if (color != other.color) { return false; }
+        if (color != other.color) {
+            return false;
+        }
 
         return (x == other.x && y == other.y);
     }
