@@ -39,6 +39,7 @@ public class GUI extends JFrame {
         this.setResizable(false);
         this.setLayout(null);
         this.setFocusable(true);
+        this.setLocationRelativeTo(null);
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -77,9 +78,26 @@ public class GUI extends JFrame {
                 "res/board_bg.png",
                 this.startPosBoard.x + 40,
                 this.startPosBoard.y + 44,
-                1
+                4
         );
         this.layeredPane.add(boardBackground, JLayeredPane.MODAL_LAYER);
+
+        // debugPieceHolder
+        DebugPieceHolder debugPieceHolder = new DebugPieceHolder(
+                this.startPosBlackBoard.x,
+                this.startPosBlackBoard.y + 210,
+                4
+        );
+        this.layeredPane.add(debugPieceHolder, JLayeredPane.MODAL_LAYER);
+
+        // stackHolder
+        ImagePanel stackHolder = new ImagePanel(
+                "res/stack_holder.png",
+                this.startPosBlackBoard.x,
+                this.startPosBlackBoard.y + 417,
+                4
+        );
+        this.layeredPane.add(stackHolder, JLayeredPane.MODAL_LAYER);
 
         // Player Indicator
         this.indicatorWhite = new ImagePanel(
@@ -144,8 +162,8 @@ public class GUI extends JFrame {
         });
 
         // Stacks
-        this.pieceStackWhite = new Piecestack(this.layeredPane, Color.WHITE, 700, 640);
-        this.pieceStackBlack = new Piecestack(this.layeredPane, Color.BLACK, 750, 610);
+        this.pieceStackWhite = new Piecestack(this.layeredPane, Color.WHITE, 720, 570);
+        this.pieceStackBlack = new Piecestack(this.layeredPane, Color.BLACK, 780, 540);
 
         // begin debug
             JButton button = new JButton("(temp): black +");
@@ -253,7 +271,7 @@ public class GUI extends JFrame {
         gst.initalize();
 
         for (Piece p : gst.pieces) {
-            Figure figure = new Figure(p, this.startPosBoard, this.layeredPane);
+            Figure figure = new Figure(p, this.startPosBoard, this.layeredPane, this.test_gameState);
             figure.addActionListener(e -> {
                 for (Figure f : this.figures) {
                     if (figure.equals(f)) {

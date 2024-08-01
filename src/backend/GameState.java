@@ -1,7 +1,7 @@
 package backend;
 
 import backend.utilities.Color;
-import backend.utilities.Tuple;
+import backend.utilities.Position;
 
 import java.util.ArrayList;
 
@@ -24,23 +24,23 @@ public class GameState {
         blacksTurn = true;
         pieces = new ArrayList<>();
 
-        Tuple<Integer, Integer>[] whitePos = new Tuple[] {
-                new Tuple<>(0,7), new Tuple<>(2,7), new Tuple<>(4,7), new Tuple<>(6,7),
-                new Tuple<>(1,6), new Tuple<>(3,6), new Tuple<>(5,6), new Tuple<>(7,6),
-                new Tuple<>(0,5), new Tuple<>(2,5), new Tuple<>(4,5), new Tuple<>(6,5)
+        Position[] whitePos = new Position[] {
+                new Position(0,7), new Position(2,7), new Position(4,7), new Position(6,7),
+                new Position(1,6), new Position(3,6), new Position(5,6), new Position(7,6),
+                new Position(0,5), new Position(2,5), new Position(4,5), new Position(6,5),
         };
-        Tuple<Integer, Integer>[] blackPos = new Tuple[] {
-                new Tuple<>(1,2), new Tuple<>(3,2), new Tuple<>(7,2), new Tuple<>(0,1),
-                new Tuple<>(2,1), new Tuple<>(4,1), new Tuple<>(6,1), new Tuple<>(1,0),
-                new Tuple<>(3,0), new Tuple<>(5,0), new Tuple<>(7,0), new Tuple<>(5,2)
+        Position[] blackPos = new Position[] {
+                new Position(1,2), new Position(3,2), new Position(7,2), new Position(0,1),
+                new Position(2,1), new Position(4,1), new Position(6,1), new Position(1,0),
+                new Position(3,0), new Position(5,0), new Position(7,0), new Position(5,2),
         };
 
-        for (Tuple<Integer,Integer> pos : blackPos) {
-            pieces.add(new Man(pos.x,pos.y, Color.BLACK));
+        for (Position pos : blackPos) {
+            pieces.add(new Man(pos, Color.BLACK));
         }
 
-        for (Tuple<Integer,Integer> pos : whitePos) {
-            pieces.add(new Man(pos.x,pos.y, Color.WHITE));
+        for (Position pos : whitePos) {
+            pieces.add(new Man(pos, Color.WHITE));
         }
     }
 
@@ -99,6 +99,6 @@ public class GameState {
         int x = piece.getX();
         int y = piece.getY();
         Color color = piece.getColor();
-        pieces.set(pieces.indexOf(piece), new King(x, y, color));
+        pieces.set(pieces.indexOf(piece), new King(new Position(x,y), color));
     }
 }

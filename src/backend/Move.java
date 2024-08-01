@@ -1,16 +1,21 @@
 package backend;
 
-import backend.utilities.Tuple;
+import backend.utilities.Position;
 
 public class Move {
-    private final Tuple<Integer,Integer> start;
-    private final Tuple<Integer,Integer> end;
+    private final Position start;
+    private final Position end;
 
-    public Move(Tuple<Integer, Integer> start, Tuple<Integer, Integer> end) {
+    public Move(Position start, Position end) {
         this.start = start;
         this.end = end;
     }
 
-    public Tuple<Integer,Integer> getStart() { return start; }
-    public Tuple<Integer,Integer> getEnd() { return end; }
+    public Position getStart() { return start; }
+    public Position getEnd() { return end; }
+
+    @Override
+    public String toString() {
+        return "[Move " + start + " -> " + end + "]";
+    }
 }

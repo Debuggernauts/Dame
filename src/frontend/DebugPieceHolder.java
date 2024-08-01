@@ -1,6 +1,4 @@
-package frontend.res;
-
-import frontend.ImagePanel;
+package frontend;
 
 public class DebugPieceHolder extends ImagePanel {
 

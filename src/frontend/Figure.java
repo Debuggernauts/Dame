@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.GameState;
 import backend.King;
 import backend.Move;
 import backend.Piece;
@@ -23,9 +24,11 @@ public class Figure {
     private boolean active = false;
     private final List<ActionListener> actionListeners = new ArrayList<>();
     private final ArrayList<Marker> markers = new ArrayList<>();
+    private final GameState gst; // temp
 
-    public Figure(Piece piece, Point startPosBoard, JLayeredPane layeredPane) {
+    public Figure(Piece piece, Point startPosBoard, JLayeredPane layeredPane, GameState gst) {
         this.piece = piece;
+        this.gst = gst;
         this.layeredPane = layeredPane;
         this.startPosBoard = startPosBoard;
 
@@ -83,9 +86,15 @@ public class Figure {
         if (active) {
             this.image.setVisible(false);
             this.imageActive.setVisible(true);
-            ArrayList<Move> moves = this.piece.getValidMoves();
+            ArrayList<Move> moves = this.piece.getValidMoves(this.gst);
             for (Move move : moves) {
                 Marker marker = new Marker(move, this.startPosBoard);
+                marker.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        System.out.println(marker.pos);
+                    }
+                });
                 this.markers.add(marker);
                 this.layeredPane.add(marker, JLayeredPane.DRAG_LAYER);
             }
