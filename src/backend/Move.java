@@ -3,8 +3,8 @@ package backend;
 import backend.utilities.Tuple;
 
 public class Move {
-    public Tuple<Integer,Integer> start;
-    public Tuple<Integer,Integer> end;
+    private final Tuple<Integer,Integer> start;
+    private final Tuple<Integer,Integer> end;
 
     public Move(Tuple<Integer, Integer> start, Tuple<Integer, Integer> end) {
         this.start = start;

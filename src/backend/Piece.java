@@ -34,12 +34,28 @@ public abstract class Piece {
 
     public Color getColor() { return color; }
 
-    public ArrayList<Move> getValidMoves() {
-        return new ArrayList<>();
+    public static ArrayList<Move> getValidMoves() {
+        ArrayList<Move> moves = new ArrayList<>();
+        moves.add(new Move(
+                new Tuple<>(0, 1),
+                new Tuple<>(1, 0)
+        ));
+        return moves;
     }
 
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "(" + this.color + ")" + " at (" + x + ", " + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { return true; }
+        if (obj == null || getClass() != obj.getClass()) { return false; }
+        Piece other = (Piece) obj;
+
+        if (color != other.color) { return false; }
+
+        return (x == other.x && y == other.y);
     }
 }

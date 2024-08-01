@@ -20,7 +20,7 @@ import java.util.Objects;
 public class GUI extends JFrame {
     private final ImagePanel indicatorWhite;
     private final ImagePanel indicatorBlack;
-    private final ArrayList<Tuple<ImagePanel, Piece>> figures = new ArrayList<>();
+    private final ArrayList<Figure> figures = new ArrayList<Figure>();
     private final JLayeredPane layeredPane = new JLayeredPane();
     private final Point startPosBoard = new Point(55, 45);
     private final Point startPosBlackBoard = new Point(702, 100);
@@ -127,6 +127,13 @@ public class GUI extends JFrame {
         blackBoardNewGame.addActionListener(e -> {
             NewGameDialog dialog = new NewGameDialog(GUI.this);
             dialog.setVisible(true);
+            dialog.setLocationRelativeTo(this);
+            dialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            });
 
             String data = dialog.getInputData();
             if (!data.isEmpty()) {
@@ -241,41 +248,28 @@ public class GUI extends JFrame {
         }
     }
 
-    private void placeFigure(Piece piece) {
-        if (piece instanceof King) {
-            ImagePanel figure = new ImagePanel(
-                    piece.getColor() == Color.BLACK ? "res/black_king.png" : "res/white_king.png",
-                    this.startPosBoard.x + 40 + 64 * piece.getX(),
-                    this.startPosBoard.y + 44 + 64 * piece.getY(),
-                    4
-            );
-            this.figures.add(new Tuple<>(figure, piece));
-            this.layeredPane.add(figure, JLayeredPane.DRAG_LAYER);
 
-        } else if (piece instanceof Man) {
-            ImagePanel figure = new ImagePanel(
-                    piece.getColor() == Color.BLACK ? "res/black_man.png" : "res/white_man.png",
-                    this.startPosBoard.x + 40 + 64 * piece.getX(),
-                    this.startPosBoard.y + 44 + 64 * piece.getY(),
-                    4);
-            this.figures.add(new Tuple<>(figure, piece));
-            this.layeredPane.add(figure, JLayeredPane.DRAG_LAYER);
-        }
-    }
 
     public void renderGameState(GameState gst) {
         this.deleteAllPieces();
         gst.initalize();
 
         for (Piece p : gst.pieces) {
-            this.placeFigure(p);
+            Figure figure = new Figure(p, this.startPosBoard, this.layeredPane);
+            figure.addActionListener(e -> {
+                for (Figure f : this.figures) {
+                    // TODO: if the eventFigure is the same as f -> dont do it
+                    f.setActive(false);
+                }
+            });
+            this.figures.add(figure);
         }
         this.setPlayerIndicator(gst);
     }
 
     public void deleteAllPieces() {
-        for (Tuple<ImagePanel, Piece> c : this.figures) {
-            this.layeredPane.remove(c.x);
+        for (Figure c : this.figures) {
+            c.removeThis();
         }
         this.figures.clear();
     }
@@ -299,3 +293,4 @@ public class GUI extends JFrame {
         this.layeredPane.add(marker, JLayeredPane.DRAG_LAYER);
     }
 }
+

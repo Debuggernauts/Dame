@@ -1,12 +1,8 @@
 package frontend;
 
-import backend.Man;
-import backend.Piece;
 import backend.utilities.Color;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Stack;
 
 public class Piecestack {
