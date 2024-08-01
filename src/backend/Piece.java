@@ -2,9 +2,6 @@ package backend;
 
 import backend.utilities.Color;
 import backend.utilities.Position;
-import backend.utilities.Tuple;
-
-import java.util.ArrayList;
 
 public abstract class Piece implements canMove {
     protected Position pos;

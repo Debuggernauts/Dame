@@ -1,4 +1,3 @@
-import backend.GameState;
 import frontend.GUI;
 
 public class Main {
