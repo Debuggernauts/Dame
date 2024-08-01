@@ -34,7 +34,7 @@ public abstract class Piece {
 
     public Color getColor() { return color; }
 
-    public static ArrayList<Move> getValidMoves() {
+    public ArrayList<Move> getValidMoves() {
         ArrayList<Move> moves = new ArrayList<>();
         moves.add(new Move(
                 new Tuple<>(0, 1),

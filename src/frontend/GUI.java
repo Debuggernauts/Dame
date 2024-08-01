@@ -239,7 +239,7 @@ public class GUI extends JFrame {
 
     private void setIcon() {
         try {
-            InputStream imageStream = getClass().getResourceAsStream("res/black_king.png");
+            InputStream imageStream = getClass().getResourceAsStream("res/icon.png");
             assert imageStream != null;
             BufferedImage icon = ImageIO.read(imageStream);
             this.setIconImage(icon);
@@ -247,8 +247,6 @@ public class GUI extends JFrame {
             throw new RuntimeException(e);
         }
     }
-
-
 
     public void renderGameState(GameState gst) {
         this.deleteAllPieces();
@@ -258,7 +256,9 @@ public class GUI extends JFrame {
             Figure figure = new Figure(p, this.startPosBoard, this.layeredPane);
             figure.addActionListener(e -> {
                 for (Figure f : this.figures) {
-                    // TODO: if the eventFigure is the same as f -> dont do it
+                    if (figure.equals(f)) {
+                        continue;
+                    }
                     f.setActive(false);
                 }
             });
@@ -272,25 +272,6 @@ public class GUI extends JFrame {
             c.removeThis();
         }
         this.figures.clear();
-    }
-
-    public void deleteAllMarkers() {
-        for (ImagePanel c : this.markers) {
-            this.layeredPane.remove(c);
-        }
-        this.markers.clear();
-    }
-
-    private void placePossibleMoveButton(Move move) {
-        Tuple<Integer, Integer> endPos = move.getEnd();
-        ImagePanel marker = new ImagePanel(
-                "res/white_king.png",
-                this.startPosBoard.x + 40 + 64 * endPos.x,
-                this.startPosBoard.y + 44 + 64 * endPos.x,
-                4
-        );
-        this.markers.add(marker);
-        this.layeredPane.add(marker, JLayeredPane.DRAG_LAYER);
     }
 }
 

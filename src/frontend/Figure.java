@@ -76,16 +76,14 @@ public class Figure {
     }
 
     public void setActive(boolean active) {
-        /*if (active == this.active) {
+        if (active == this.active) {
             return;
-        }*/
-        System.out.println(active);
+        }
         this.active = active;
         if (active) {
             this.image.setVisible(false);
             this.imageActive.setVisible(true);
-            System.out.println("render all Marker");
-            ArrayList<Move> moves = Piece.getValidMoves();
+            ArrayList<Move> moves = this.piece.getValidMoves();
             for (Move move : moves) {
                 Marker marker = new Marker(move, this.startPosBoard);
                 this.markers.add(marker);
@@ -93,20 +91,21 @@ public class Figure {
             }
 
         } else {
-            System.out.println(this.markers);
             for (Marker marker : this.markers) {
+                marker.setVisible(false);
                 this.layeredPane.remove(marker);
             }
             this.markers.clear();
 
             this.image.setVisible(true);
             this.imageActive.setVisible(false);
-            System.out.println("remove all Marker");
         }
     }
 
     public void removeThis() {
+        this.image.setVisible(false);
         this.layeredPane.remove(this.image);
+        this.imageActive.setVisible(false);
         this.layeredPane.remove(this.imageActive);
     }
 
