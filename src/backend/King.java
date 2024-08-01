@@ -11,7 +11,6 @@ public class King extends Piece {
         super(pos,color);
     }
 
-    @Override
     public ArrayList<Move> getValidMoves(GameState currentGameState) {
         ArrayList<Move> moves = new ArrayList<>();
 

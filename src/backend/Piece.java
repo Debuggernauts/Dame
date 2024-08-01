@@ -6,7 +6,7 @@ import backend.utilities.Tuple;
 
 import java.util.ArrayList;
 
-public abstract class Piece {
+public abstract class Piece implements canMove {
     protected Position pos;
     protected Color color;
 
@@ -32,11 +32,6 @@ public abstract class Piece {
     }
 
     public Color getColor() { return color; }
-
-    public ArrayList<Move> getValidMoves(GameState currentGameState) {
-        ArrayList<Move> moves = new ArrayList<Move>();
-        return moves;
-    }
 
     @Override
     public String toString() {

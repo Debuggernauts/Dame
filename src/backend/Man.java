@@ -10,7 +10,6 @@ public class Man extends Piece {
         super(position, color);
     }
 
-    @Override
     public ArrayList<Move> getValidMoves(GameState currentGameState) {
         ArrayList<Move> moves = new ArrayList<>();
 
