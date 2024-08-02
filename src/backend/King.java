@@ -36,7 +36,7 @@ public class King extends Piece {
         while (0 <= x + dx && x + dx < 8 && 0 <= y + dy && y + dy < 8) {
             x += dx;
             y += dy;
-            Piece field = currentGameState.getPieceAt(x, y);
+            Piece field = currentGameState.getPieceAt(x,y);
             System.out.println(field);
 
             if (field != null) {
@@ -51,7 +51,7 @@ public class King extends Piece {
     private void filterMoves(GameState currentGameState, ArrayList<Move> moves, Piece field, int x, int y, int dx, int dy) {
         if (field.getColor() != this.getColor() &&
                 0 <= x + dx && x + dx < 8 && 0 <= y + dy && y + dy < 8 &&
-                currentGameState.getPieceAt(x + dx, y + dy) == null) {
+                currentGameState.getPieceAt(x+dx, y+dy) == null) {
             moves.clear();
             moves.add(new Move(this.pos, new Position(x + dx, y + dy)));
         }

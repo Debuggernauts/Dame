@@ -20,6 +20,9 @@ public abstract class Piece implements canMove {
         return this.pos.y;
     }
 
+    public Position getPos() { return this.pos;}
+    public void setPos(Position pos) { this.pos = pos;}
+
     public void setX(int x) {
         this.pos.x = x;
     }

@@ -18,9 +18,9 @@ public class Man extends Piece {
         int xRight = this.color == Color.BLACK ? this.pos.x-1 : this.pos.x+1;
 
         Piece leftField = currentGameState.getPieceAt(xLeft, y);
+        Piece rightField = currentGameState.getPieceAt(xRight, y);
         getMove(currentGameState, moves, leftField, true);
-            Piece rightField = currentGameState.getPieceAt(xRight, y);
-            getMove(currentGameState, moves, rightField, false);
+        getMove(currentGameState, moves, rightField, false);
 
         if (moves.isEmpty()) {
             if (leftField == null) {
@@ -69,7 +69,6 @@ public class Man extends Piece {
                         new Position(x, y)
                 ));
             }
-            System.out.println("Sup");
         }
     }
 }
