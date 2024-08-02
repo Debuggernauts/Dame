@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class GameState {
     public ArrayList<Piece> pieces;
-    public boolean blacksTurn;
+    public boolean whitesTurn;
 
     /**
      * Starts a new game by initializing the game state
@@ -21,7 +21,7 @@ public class GameState {
      * Initializes the game state with the starting positions of all {@link Piece} objects
      */
     public void initalize() {
-        blacksTurn = true;
+        whitesTurn = true;
         pieces = new ArrayList<>();
 
         Position[] whitePos = new Position[] {
@@ -55,14 +55,14 @@ public class GameState {
         // TODO: Philipp, pls giv method
         // test if game finished
         promotionCheck();
-        blacksTurn = !blacksTurn;
+        whitesTurn = !whitesTurn;
     }
 
     public void consecutiveMove(Piece piece, Move move) {
         if (Math.abs(move.getEnd().x -move.getStart().x) > 1) {
             ArrayList<Move> moves = piece.getValidMoves(this);
-            if (!moves.isEmpty() && Math.abs(moves.getFirst().getEnd().x-moves.getFirst().getStart().x) > 1) {
-                makeMove(moves.getFirst());
+            if (!moves.isEmpty() && Math.abs(moves.get(0).getEnd().x-moves.get(0).getStart().x) > 1) {
+                makeMove(moves.get(0));
             }
         }
     }

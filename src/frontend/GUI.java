@@ -2,7 +2,6 @@ package frontend;
 
 import backend.*;
 import backend.utilities.Color;
-import backend.utilities.Tuple;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,10 +27,12 @@ public class GUI extends JFrame {
     private final Piecestack pieceStackWhite;
     private final Piecestack pieceStackBlack;
 
-    GameState test_gameState = new GameState(); // TODO: temp
+    GameState gameState = new GameState();
 
 
     public GUI() {
+        this.gameState.initalize();
+
         // init stuff
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1040, 871);
@@ -80,6 +81,14 @@ public class GUI extends JFrame {
                 this.startPosBoard.y + 44,
                 4
         );
+        boardBackground.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                for (Figure f : figures) {
+                    f.setActive(false);
+                }
+            }
+        });
         this.layeredPane.add(boardBackground, JLayeredPane.MODAL_LAYER);
 
         // debugPieceHolder
@@ -88,6 +97,7 @@ public class GUI extends JFrame {
                 this.startPosBlackBoard.y + 210,
                 4
         );
+        debugPieceHolder.setVisible(false);
         this.layeredPane.add(debugPieceHolder, JLayeredPane.MODAL_LAYER);
 
         // stackHolder
@@ -198,13 +208,12 @@ public class GUI extends JFrame {
             button4.setVisible(false);
             this.layeredPane.add(button4, JLayeredPane.MODAL_LAYER);
 
-            test_gameState.blacksTurn = true;
-            this.setPlayerIndicator(test_gameState);
+            this.setPlayerIndicator(gameState);
             JButton button5 = new JButton("(temp): Toggle current player");
             button5.setBounds(700, 298, 260, 30);
             button5.addActionListener(e -> {
-                test_gameState.blacksTurn = !test_gameState.blacksTurn;
-                setPlayerIndicator(test_gameState);
+                gameState.whitesTurn = !gameState.whitesTurn;
+                setPlayerIndicator(gameState);
             });
             button5.setVisible(false);
             this.layeredPane.add(button5, JLayeredPane.MODAL_LAYER);
@@ -224,21 +233,23 @@ public class GUI extends JFrame {
             button3.setVisible(toggleDebug.isDebugEnabled());
             button4.setVisible(toggleDebug.isDebugEnabled());
             button5.setVisible(toggleDebug.isDebugEnabled());
+            debugPieceHolder.setVisible(toggleDebug.isDebugEnabled());
 
         });
 
-        this.renderGameState(test_gameState);
+        this.renderGameState(gameState);
 
         this.setVisible(true);
     }
 
     public void setPlayerIndicator(GameState gst) {
-        if (gst.blacksTurn) {
-            this.indicatorWhite.setVisible(true);
-            this.indicatorBlack.setVisible(false);
-        } else {
+        if (gst.whitesTurn) {
             this.indicatorWhite.setVisible(false);
             this.indicatorBlack.setVisible(true);
+        } else {
+            this.indicatorWhite.setVisible(true);
+            this.indicatorBlack.setVisible(false);
+
         }
     }
 
@@ -267,11 +278,20 @@ public class GUI extends JFrame {
     }
 
     public void renderGameState(GameState gst) {
+        System.out.println("render GameState");
         this.deleteAllPieces();
-        gst.initalize();
+        for (int i = 0; i < 12; i++) { // TODO: refactor
+            this.pieceStackBlack.increment();
+            this.pieceStackWhite.increment();
+        }
 
         for (Piece p : gst.pieces) {
-            Figure figure = new Figure(p, this.startPosBoard, this.layeredPane, this.test_gameState);
+            if (p.getColor() == Color.BLACK) {
+                this.pieceStackBlack.decrement();
+            } else {
+                this.pieceStackWhite.decrement();
+            }
+            Figure figure = new Figure(p, this.startPosBoard, this.layeredPane, this);
             figure.addActionListener(e -> {
                 for (Figure f : this.figures) {
                     if (figure.equals(f)) {

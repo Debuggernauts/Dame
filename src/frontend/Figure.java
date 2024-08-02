@@ -1,6 +1,5 @@
 package frontend;
 
-import backend.GameState;
 import backend.King;
 import backend.Move;
 import backend.Piece;
@@ -24,11 +23,11 @@ public class Figure {
     private boolean active = false;
     private final List<ActionListener> actionListeners = new ArrayList<>();
     private final ArrayList<Marker> markers = new ArrayList<>();
-    private final GameState gst; // temp
+    private final GUI gui; // temp
 
-    public Figure(Piece piece, Point startPosBoard, JLayeredPane layeredPane, GameState gst) {
+    public Figure(Piece piece, Point startPosBoard, JLayeredPane layeredPane, GUI gui) {
         this.piece = piece;
-        this.gst = gst;
+        this.gui = gui;
         this.layeredPane = layeredPane;
         this.startPosBoard = startPosBoard;
 
@@ -83,16 +82,18 @@ public class Figure {
             return;
         }
         this.active = active;
-        if (active) {
+        if (active && this.gui.gameState.whitesTurn == (this.piece.getColor() == Color.WHITE)) {
             this.image.setVisible(false);
             this.imageActive.setVisible(true);
-            ArrayList<Move> moves = this.piece.getValidMoves(this.gst);
+            ArrayList<Move> moves = this.piece.getValidMoves(this.gui.gameState);
             for (Move move : moves) {
                 Marker marker = new Marker(move, this.startPosBoard);
                 marker.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        System.out.println(marker.pos);
+                        System.out.println("Marker: " + marker.pos);
+                        gui.gameState.makeMove(marker.getMove());
+                        gui.renderGameState(gui.gameState);
                     }
                 });
                 this.markers.add(marker);
@@ -116,6 +117,11 @@ public class Figure {
         this.layeredPane.remove(this.image);
         this.imageActive.setVisible(false);
         this.layeredPane.remove(this.imageActive);
+        for (Marker m : this.markers) {
+            m.setVisible(false);
+            this.layeredPane.remove(m);
+        }
+        markers.clear();
     }
 
     public boolean isActive() {
