@@ -3,6 +3,7 @@ package frontend;
 import backend.utilities.Color;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Stack;
 
 public class Piecestack {
@@ -31,8 +32,10 @@ public class Piecestack {
     private void addFigure() {
         ImagePanel figure = new ImagePanel(
                 this.color == Color.BLACK ? "res/black_man.png" : "res/white_man.png",
-                this.startX + (this.stackSize > 6 ? 35 : 0),
-                this.startY - (this.stackSize - 1 - (this.stackSize > 6 ? 8 : 0)) * 15,
+                new Point(
+                        this.startX + (this.stackSize > 6 ? 35 : 0),
+                        this.startY - (this.stackSize - 1 - (this.stackSize > 6 ? 8 : 0)) * 15
+                ),
                 4
         );
         this.figures.push(figure);

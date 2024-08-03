@@ -3,6 +3,7 @@ package frontend;
 import backend.GameState;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class PlayerIndicator {
     private final ImagePanel indicatorWhite;
@@ -11,14 +12,12 @@ public class PlayerIndicator {
     public PlayerIndicator(JLayeredPane layeredPane) {
         this.indicatorWhite = new ImagePanel(
                 "res/current_player_indicator.png",
-                163,
-                649,
+                new Point(163, 649),
                 4
         );
         this.indicatorBlack = new ImagePanel(
                 "res/current_player_indicator.png",
-                483,
-                649,
+                new Point(483, 649),
                 4
         );
 

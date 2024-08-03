@@ -16,8 +16,8 @@ public class ToggleButton {
     private final List<ActionListener> actionListeners = new ArrayList<>();
 
     public ToggleButton(String firstStatePath, String secondStatePath, Point pos, boolean defaultState, JLayeredPane layeredPane) {
-        this.firstStateImage = new ImagePanel(firstStatePath, pos.x, pos.y, 4);
-        this.secondStateImage = new ImagePanel(secondStatePath, pos.x, pos.y, 4);
+        this.firstStateImage = new ImagePanel(firstStatePath, pos, 4);
+        this.secondStateImage = new ImagePanel(secondStatePath, pos, 4);
 
         this.firstStateImage.addMouseListener(new MouseAdapter() {
             @Override

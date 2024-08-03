@@ -64,7 +64,7 @@ public class Figure {
         int xPosition = this.startPosBoard.x + 40 + 64 * piece.getX();
         int yPosition = this.startPosBoard.y + 44 + 64 * piece.getY();
 
-        return new ImagePanel(imagePath, xPosition, yPosition, 4);
+        return new ImagePanel(imagePath, new Point(xPosition, yPosition), 4);
     }
 
     private ImagePanel createActiveImage(Piece piece) {
@@ -75,7 +75,7 @@ public class Figure {
         int xPosition = this.startPosBoard.x + 40 + 64 * piece.getX();
         int yPosition = this.startPosBoard.y + 44 + 64 * piece.getY();
 
-        return new ImagePanel(imagePath, xPosition, yPosition, 4);
+        return new ImagePanel(imagePath, new Point(xPosition, yPosition), 4);
     }
 
     public void setActive(boolean active) {

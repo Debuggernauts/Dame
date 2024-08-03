@@ -27,7 +27,7 @@ public class GUI extends JFrame {
     private final Piecestack pieceStackBlack;
 
     GameState gameState = new GameState();
-    private boolean debug;
+    private boolean debug = false;
 
 
     public GUI() {
@@ -59,8 +59,7 @@ public class GUI extends JFrame {
         // Background Panel
         ImagePanel background = new ImagePanel(
                 "res/background.png",
-                0,
-                0,
+                new Point(0, 0),
                 1
         );
         this.layeredPane.add(background, JLayeredPane.DEFAULT_LAYER);
@@ -68,8 +67,7 @@ public class GUI extends JFrame {
         // Border Image Panel
         ImagePanel boardBorder = new ImagePanel(
                 "res/board_border.png",
-                this.startPosBoard.x,
-                this.startPosBoard.y,
+                this.startPosBoard,
                 4
         );
         this.layeredPane.add(boardBorder, JLayeredPane.PALETTE_LAYER);
@@ -77,8 +75,7 @@ public class GUI extends JFrame {
         // bg grid
         ImagePanel boardBackground = new ImagePanel(
                 "res/board_bg.png",
-                this.startPosBoard.x + 40,
-                this.startPosBoard.y + 44,
+                new Point(this.startPosBoard.x + 40, this.startPosBoard.y + 44),
                 4
         );
         boardBackground.addMouseListener(new MouseAdapter() {
@@ -93,8 +90,7 @@ public class GUI extends JFrame {
 
         // debugPieceHolder
         DebugPieceHolder debugPieceHolder = new DebugPieceHolder(
-                this.startPosBlackBoard.x,
-                this.startPosBlackBoard.y + 210,
+                new Point(this.startPosBlackBoard.x, this.startPosBlackBoard.y + 210),
                 4
         );
         debugPieceHolder.setVisible(false);
@@ -103,8 +99,7 @@ public class GUI extends JFrame {
         // stackHolder
         ImagePanel stackHolder = new ImagePanel(
                 "res/stack_holder.png",
-                this.startPosBlackBoard.x,
-                this.startPosBlackBoard.y + 417,
+                new Point(this.startPosBlackBoard.x, this.startPosBlackBoard.y + 417),
                 4
         );
         this.layeredPane.add(stackHolder, JLayeredPane.MODAL_LAYER);
@@ -114,16 +109,17 @@ public class GUI extends JFrame {
         // blackboard background
         ImagePanel blackBoardBackground = new ImagePanel(
                 "res/black_board.png",
-                this.startPosBlackBoard.x,
-                this.startPosBlackBoard.y,
+                this.startPosBlackBoard,
                 4
         );
         this.layeredPane.add(blackBoardBackground, JLayeredPane.MODAL_LAYER);
 
         // blackboard manual
         CustomButton blackBoardManual = new CustomButton(
-                this.startPosBlackBoard.x + 24,
-                this.startPosBlackBoard.y + 25,
+                new Point(
+                        this.startPosBlackBoard.x + 24,
+                        this.startPosBlackBoard.y + 25
+                ),
                 "res/manual.png",
                 this.layeredPane
         );
@@ -132,8 +128,10 @@ public class GUI extends JFrame {
         });
 
         CustomButton blackBoardNewGame = new CustomButton(
-                this.startPosBlackBoard.x + 24,
-                this.startPosBlackBoard.y + 73,
+                new Point(
+                        this.startPosBlackBoard.x + 24,
+                        this.startPosBlackBoard.y + 73
+                ),
                 "res/new_game.png",
                 this.layeredPane
         );
@@ -160,11 +158,11 @@ public class GUI extends JFrame {
         this.pieceStackWhite = new Piecestack(this.layeredPane, Color.WHITE, 720, 570);
         this.pieceStackBlack = new Piecestack(this.layeredPane, Color.BLACK, 780, 540);
 
-        ImagePanel playerIndicatorToggleBackground = new ImagePanel("res/debug_overlay.png", 249, 653, 4);
+        ImagePanel playerIndicatorToggleBackground = new ImagePanel("res/debug_overlay.png", new Point(249, 653), 4);
         playerIndicatorToggleBackground.setVisible(false);
         this.layeredPane.add(playerIndicatorToggleBackground, Integer.valueOf(JLayeredPane.DRAG_LAYER - 1));
 
-        CustomButton playerIndicatorToggle = new CustomButton(333, 658, "res/button_switch_turn.png", this.layeredPane);
+        CustomButton playerIndicatorToggle = new CustomButton(new Point(333, 658), "res/button_switch_turn.png", this.layeredPane);
         playerIndicatorToggle.setVisible(false);
         playerIndicatorToggle.addActionListener(e -> {
             gameState.whitesTurn = !gameState.whitesTurn;
@@ -173,8 +171,10 @@ public class GUI extends JFrame {
 
         // blackboard debug blob
         ToggleDebug toggleDebug = new ToggleDebug(
-                this.startPosBlackBoard.x + 24,
-                this.startPosBlackBoard.y + 121,
+                new Point(
+                        this.startPosBlackBoard.x + 24,
+                        this.startPosBlackBoard.y + 121
+                ),
                 this.layeredPane
         );
         toggleDebug.addActionListener(e -> {

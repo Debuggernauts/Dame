@@ -1,6 +1,7 @@
 package frontend;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -12,8 +13,8 @@ public class CustomButton {
     private final ImagePanel image;
     private final List<ActionListener> actionListeners = new ArrayList<>();
 
-    public CustomButton(int posX, int posY, String path, JLayeredPane layeredPane) {
-        this.image = new ImagePanel(path, posX, posY, 4);
+    public CustomButton(Point pos, String path, JLayeredPane layeredPane) {
+        this.image = new ImagePanel(path, pos, 4);
 
         layeredPane.add(this.image, JLayeredPane.DRAG_LAYER);
 

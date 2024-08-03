@@ -12,7 +12,7 @@ public class ImagePanel extends JPanel {
 
     private final int scale;
 
-    public ImagePanel(String path, int startX, int startY, int scale) {
+    public ImagePanel(String path, Point pos, int scale) {
         this.scale = scale;
 
         try {
@@ -24,7 +24,7 @@ public class ImagePanel extends JPanel {
         }
 
         this.setOpaque(false);
-        this.setBounds(startX, startY, this.image.getWidth() * scale, this.image.getHeight() * scale);
+        this.setBounds(pos.x, pos.y, this.image.getWidth() * scale, this.image.getHeight() * scale);
     }
 
     @Override

@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class ToggleDebug extends ToggleButton {
 
-    public ToggleDebug(int posX, int posY, JLayeredPane layeredPane) {
-        super("res/enabled_debug.png", "res/disabled_debug.png", new Point(posX, posY), false, layeredPane);
+    public ToggleDebug(Point pos, JLayeredPane layeredPane) {
+        super("res/enabled_debug.png", "res/disabled_debug.png", pos, false, layeredPane);
     }
 
     public boolean isDebugEnabled() {

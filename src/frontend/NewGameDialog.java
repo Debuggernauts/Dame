@@ -24,16 +24,14 @@ public class NewGameDialog extends JDialog {
 
         ImagePanel boardBorder = new ImagePanel(
                 "res/black_board.png",
-                0,
-                0,
+                new Point(0, 0),
                 4
         );
         layeredPane.add(boardBorder, JLayeredPane.DEFAULT_LAYER);
 
         for (int i = 0; i < values.size(); i++) {
             CustomButton button = new CustomButton(
-                    20,
-                    15 + i * 30,
+                    new Point(20, 15 + i * 30),
                     this.imagePaths.get(i),
                     layeredPane
             );
