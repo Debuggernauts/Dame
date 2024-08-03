@@ -7,9 +7,9 @@ import java.util.Arrays;
 
 public class NewGameDialog extends JDialog {
     private String inputData;
-    private ArrayList<String> values = new ArrayList<>(Arrays.asList("lokales Spiel", "online Spiel", "KI (leicht)", "KI (mittel)", "KI (schwer)"));
-    private ArrayList<String> imagePaths = new ArrayList<>(Arrays.asList("res/black_king.png", "res/black_man.png", "res/white_king.png", "res/white_man.png", "res/current_player_indicator.png"));
-    private ArrayList<CustomButton> buttons = new ArrayList<>();
+    private final ArrayList<String> values = new ArrayList<>(Arrays.asList("lokales Spiel", "online Spiel", "KI (leicht)", "KI (mittel)", "KI (schwer)"));
+    private final ArrayList<String> imagePaths = new ArrayList<>(Arrays.asList("res/black_king.png", "res/black_man.png", "res/white_king.png", "res/white_man.png", "res/current_player_indicator.png"));
+    private final ArrayList<CustomButton> buttons = new ArrayList<>();
 
     public NewGameDialog(Frame parent) {
         super(parent, "Neues Spiel", true);

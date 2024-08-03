@@ -18,13 +18,12 @@ import java.util.Objects;
 
 public class GUI extends JFrame {
     private final PlayerIndicator playerIndicator;
-    private final ArrayList<Figure> figures = new ArrayList<Figure>();
+    private final ArrayList<Figure> figures = new ArrayList<>();
     private final JLayeredPane layeredPane = new JLayeredPane();
-    private final Point startPosBoard = new Point(55, 45);
-    private final Point startPosBlackBoard = new Point(702, 100);
-    private final ArrayList<ImagePanel> markers = new ArrayList<>();
-    private final Piecestack pieceStackWhite;
-    private final Piecestack pieceStackBlack;
+    private final Point startPosBoard = new Point(55, 45 + 44);
+    private final Point startPosBlackBoard = new Point(702, 100 + 44);
+    private final PieceStack pieceStackWhite;
+    private final PieceStack pieceStackBlack;
 
     GameState gameState = new GameState();
     private boolean debug = false;
@@ -35,11 +34,12 @@ public class GUI extends JFrame {
 
         // init stuff
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1040, 871);
+        this.setSize(1040 - 16, 871 + 5);
         this.setTitle("Dame");
         this.setResizable(false);
         this.setLayout(null);
         this.setFocusable(true);
+        this.setUndecorated(true);
         this.setLocationRelativeTo(null);
         this.addKeyListener(new KeyAdapter() {
             @Override
@@ -56,10 +56,14 @@ public class GUI extends JFrame {
         // layer
         this.setContentPane(this.layeredPane);
 
+        // Decorator
+        CustomDecorator decorator = new CustomDecorator(this);
+
+
         // Background Panel
         ImagePanel background = new ImagePanel(
                 "res/background.png",
-                new Point(0, 0),
+                new Point(0, 44),
                 1
         );
         this.layeredPane.add(background, JLayeredPane.DEFAULT_LAYER);
@@ -123,10 +127,9 @@ public class GUI extends JFrame {
                 "res/manual.png",
                 this.layeredPane
         );
-        blackBoardManual.addActionListener(e -> {
-            openManual();
-        });
+        blackBoardManual.addActionListener(e -> openManual());
 
+        // blackboard new Game
         CustomButton blackBoardNewGame = new CustomButton(
                 new Point(
                         this.startPosBlackBoard.x + 24,
@@ -154,19 +157,27 @@ public class GUI extends JFrame {
             }
         });
 
-        // Stacks
-        this.pieceStackWhite = new Piecestack(this.layeredPane, Color.WHITE, 720, 570);
-        this.pieceStackBlack = new Piecestack(this.layeredPane, Color.BLACK, 780, 540);
+        // Endscreen
+        ImagePanel endScreen = new ImagePanel("res/end_screen.png", this.startPosBoard, 1);
+        endScreen.setVisible(false);
+        this.layeredPane.add(endScreen, Integer.valueOf(JLayeredPane.DRAG_LAYER + 1));
 
-        ImagePanel playerIndicatorToggleBackground = new ImagePanel("res/debug_overlay.png", new Point(249, 653), 4);
+        // Stacks
+        this.pieceStackWhite = new PieceStack(this.layeredPane, Color.WHITE, new Point(720, 570 + 44));
+        this.pieceStackBlack = new PieceStack(this.layeredPane, Color.BLACK, new Point(780, 540 + 44));
+
+        ImagePanel playerIndicatorToggleBackground = new ImagePanel("res/debug_overlay.png", new Point(249, 653 + 44), 4);
         playerIndicatorToggleBackground.setVisible(false);
         this.layeredPane.add(playerIndicatorToggleBackground, Integer.valueOf(JLayeredPane.DRAG_LAYER - 1));
 
-        CustomButton playerIndicatorToggle = new CustomButton(new Point(333, 658), "res/button_switch_turn.png", this.layeredPane);
+        CustomButton playerIndicatorToggle = new CustomButton(new Point(333, 658 + 44), "res/button_switch_turn.png", this.layeredPane);
         playerIndicatorToggle.setVisible(false);
         playerIndicatorToggle.addActionListener(e -> {
             gameState.whitesTurn = !gameState.whitesTurn;
             this.playerIndicator.setIndicator(gameState);
+            for (Figure f : figures) {
+                f.setActive(false);
+            }
         });
 
         // blackboard debug blob
@@ -199,10 +210,10 @@ public class GUI extends JFrame {
     private void openManual() {
         if (Desktop.isDesktopSupported()) {
             try {
-                File myFile = new File(
+                File file = new File(
                         Objects.requireNonNull(getClass().getResource("res/manual.pdf")).toURI()
                 );
-                Desktop.getDesktop().open(myFile);
+                Desktop.getDesktop().open(file);
             } catch (IOException | URISyntaxException ex) {
                 ex.printStackTrace();
             }
@@ -223,18 +234,21 @@ public class GUI extends JFrame {
     public void renderGameState(GameState gst) {
         System.out.println("render GameState");
         this.deleteAllPieces();
-        for (int i = 0; i < 12; i++) { // TODO: refactor
+        for (int i = 0; i < 12; i++) {
             this.pieceStackBlack.increment();
             this.pieceStackWhite.increment();
         }
 
         for (Piece p : gst.pieces) {
-            if (p.getColor() == Color.BLACK) {
-                this.pieceStackBlack.decrement();
-            } else {
-                this.pieceStackWhite.decrement();
+            switch (p.getColor()) {
+                case BLACK:
+                    this.pieceStackBlack.decrement();
+                    break;
+                case WHITE:
+                    this.pieceStackWhite.decrement();
+                    break;
             }
-            Figure figure = new Figure(p, this.startPosBoard, this.layeredPane, this);
+            Figure figure = new Figure(p, this.startPosBoard, this);
             figure.addActionListener(e -> {
                 for (Figure f : this.figures) {
                     if (figure.equals(f)) {
@@ -246,6 +260,22 @@ public class GUI extends JFrame {
             this.figures.add(figure);
         }
         this.playerIndicator.setIndicator(gst);
+        /*
+        int gameEnd = this.gameState.checkGameEnd();
+        switch (gameEnd) {
+            case Color.WHITE:
+                endScreen.setVisible(true);
+                this.gameState = new GameState();
+                break;
+            case Color.BLACK:
+                endScreen.setVisible(true);
+                this.gameState = new GameState();
+                break;
+            case Color.UNENDSCHIEDEN:
+                endScreen.setVisible(false);
+                break;
+        }
+        */
     }
 
     public void deleteAllPieces() {

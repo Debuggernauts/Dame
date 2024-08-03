@@ -12,12 +12,12 @@ public class PlayerIndicator {
     public PlayerIndicator(JLayeredPane layeredPane) {
         this.indicatorWhite = new ImagePanel(
                 "res/current_player_indicator.png",
-                new Point(163, 649),
+                new Point(163, 649 + 44),
                 4
         );
         this.indicatorBlack = new ImagePanel(
                 "res/current_player_indicator.png",
-                new Point(483, 649),
+                new Point(483, 649 + 44),
                 4
         );
 

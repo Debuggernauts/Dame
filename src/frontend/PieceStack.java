@@ -6,18 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
 
-public class Piecestack {
+public class PieceStack {
     private int stackSize = 0;
-    private final int startX;
-    private final int startY;
+    private final Point pos;
     private final Stack<ImagePanel> figures = new Stack<>();
     private final JLayeredPane layeredPane;
     private final Color color;
 
-    public Piecestack(JLayeredPane layeredPane, Color color, int startX, int startY) {
+    public PieceStack(JLayeredPane layeredPane, Color color, Point pos) {
         this.color = color;
-        this.startX = startX;
-        this.startY = startY;
+        this.pos = pos;
         this.layeredPane = layeredPane;
     }
 
@@ -33,8 +31,8 @@ public class Piecestack {
         ImagePanel figure = new ImagePanel(
                 this.color == Color.BLACK ? "res/black_man.png" : "res/white_man.png",
                 new Point(
-                        this.startX + (this.stackSize > 6 ? 35 : 0),
-                        this.startY - (this.stackSize - 1 - (this.stackSize > 6 ? 8 : 0)) * 15
+                        this.pos.x + (this.stackSize > 6 ? 35 : 0),
+                        this.pos.y - (this.stackSize - 1 - (this.stackSize > 6 ? 8 : 0)) * 15
                 ),
                 4
         );
@@ -42,7 +40,7 @@ public class Piecestack {
         this.layeredPane.add(
                 figure,
                 Integer.valueOf(
-                        JLayeredPane.MODAL_LAYER + this.stackSize*2 + (this.stackSize > 6 ? 1 : 0)
+                        JLayeredPane.MODAL_LAYER + this.stackSize * 2 + (this.stackSize > 6 ? 1 : 0)
                 )
         );
     }

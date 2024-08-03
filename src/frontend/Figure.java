@@ -4,7 +4,6 @@ import backend.King;
 import backend.Move;
 import backend.Piece;
 import backend.utilities.Color;
-import backend.utilities.Position;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,11 +25,11 @@ public class Figure {
     private final ArrayList<Marker> markers = new ArrayList<>();
     private final GUI gui; // temp
 
-    public Figure(Piece piece, Point startPosBoard, JLayeredPane layeredPane, GUI gui) {
+    public Figure(Piece piece, Point startPosBoard, GUI gui) {
         this.piece = piece;
         this.gui = gui;
-        this.layeredPane = layeredPane;
         this.startPosBoard = startPosBoard;
+        this.layeredPane = gui.getLayeredPane();
 
         this.image = createPieceImage(piece);
         this.imageActive = createActiveImage(piece);
