@@ -10,7 +10,7 @@ public class Marker extends ImagePanel {
     private final Move move;
 
     public Marker(Move move, Point startPosBoard) {
-        super("res/marker.png", new Point(startPosBoard.x + 40 + 64 * move.getEnd().x, startPosBoard.y + 44 + 64 * move.getEnd().y), 4);
+        super("res/marker.gif", new Point(startPosBoard.x + 40 + 64 * move.getEnd().x, startPosBoard.y + 44 + 64 * move.getEnd().y), 4);
         this.pos = move.getEnd();
         this.move = move;
     }

@@ -32,8 +32,8 @@ public class GameState {
         Position[] blackPos = new Position[] {
                 new Position(1,2), new Position(3,2), new Position(7,2), new Position(0,1),
                 new Position(2,1), new Position(4,1), new Position(6,1), new Position(1,0),
-                new Position(3,0), new Position(5,0), new Position(7,0)};//, new Position(5,2)
-        //};
+                new Position(3,0), new Position(5,0), new Position(7,0), new Position(5,2)
+        };
 
         for (Position pos : blackPos) {
             pieces.add(new Man(pos, Color.BLACK));

@@ -61,28 +61,16 @@ public class GUI extends JFrame {
 
 
         // Background Panel
-        ImagePanel background = new ImagePanel(
-                "res/background.png",
-                new Point(0, 44),
-                1
-        );
+        Background background = new Background(new Point(0, 44));
         this.layeredPane.add(background, JLayeredPane.DEFAULT_LAYER);
 
-        // Border Image Panel
-        ImagePanel boardBorder = new ImagePanel(
+        // Board Image Panel
+        ImagePanel board = new ImagePanel(
                 "res/board_border.png",
                 this.startPosBoard,
                 4
         );
-        this.layeredPane.add(boardBorder, JLayeredPane.PALETTE_LAYER);
-
-        // bg grid
-        ImagePanel boardBackground = new ImagePanel(
-                "res/board_bg.png",
-                new Point(this.startPosBoard.x + 40, this.startPosBoard.y + 44),
-                4
-        );
-        boardBackground.addMouseListener(new MouseAdapter() {
+        board.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 for (Figure f : figures) {
@@ -90,7 +78,7 @@ public class GUI extends JFrame {
                 }
             }
         });
-        this.layeredPane.add(boardBackground, JLayeredPane.MODAL_LAYER);
+        this.layeredPane.add(board, JLayeredPane.PALETTE_LAYER);
 
         // debugPieceHolder
         DebugPieceHolder debugPieceHolder = new DebugPieceHolder(
