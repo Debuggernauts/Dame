@@ -19,7 +19,7 @@ public class CustomButton {
 
         image.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
             }
         });
@@ -33,5 +33,9 @@ public class CustomButton {
 
     public void addActionListener(ActionListener listener) {
         actionListeners.add(listener);
+    }
+
+    public void setVisible(boolean visible) {
+        image.setVisible(visible);
     }
 }

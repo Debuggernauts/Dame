@@ -4,6 +4,7 @@ import backend.King;
 import backend.Move;
 import backend.Piece;
 import backend.utilities.Color;
+import backend.utilities.Position;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +41,7 @@ public class Figure {
 
         this.image.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 setActive(true);
                 fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
             }
@@ -48,7 +49,7 @@ public class Figure {
 
         this.imageActive.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 setActive(false);
                 fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
             }
@@ -90,7 +91,7 @@ public class Figure {
                 Marker marker = new Marker(move, this.startPosBoard);
                 marker.addMouseListener(new MouseAdapter() {
                     @Override
-                    public void mouseClicked(MouseEvent e) {
+                    public void mouseReleased(MouseEvent e) {
                         System.out.println("Marker: " + marker.pos);
                         gui.gameState.makeMove(marker.getMove());
                         gui.renderGameState(gui.gameState);

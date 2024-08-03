@@ -21,33 +21,41 @@ public class Piecestack {
     }
 
     public void increment() {
-        if (stackSize >= 12) {
+        if (this.stackSize >= 12) {
             return;
         }
-        stackSize++;
+        this.stackSize++;
+        this.addFigure();
+    }
+
+    private void addFigure() {
         ImagePanel figure = new ImagePanel(
                 this.color == Color.BLACK ? "res/black_man.png" : "res/white_man.png",
-                this.startX + (stackSize > 6 ? 35 : 0),
-                this.startY - (stackSize - 1 - (stackSize > 6 ? 8 : 0)) * 15,
+                this.startX + (this.stackSize > 6 ? 35 : 0),
+                this.startY - (this.stackSize - 1 - (this.stackSize > 6 ? 8 : 0)) * 15,
                 4
         );
         this.figures.push(figure);
         this.layeredPane.add(
                 figure,
                 Integer.valueOf(
-                        JLayeredPane.MODAL_LAYER + stackSize*2 + (stackSize > 6 ? 1 : 0)
+                        JLayeredPane.MODAL_LAYER + this.stackSize*2 + (this.stackSize > 6 ? 1 : 0)
                 )
         );
     }
 
+    private void removeFigure() {
+        ImagePanel topFigure = this.figures.pop();
+        this.layeredPane.remove(topFigure);
+        this.layeredPane.revalidate();
+        this.layeredPane.repaint();
+    }
+
     public void decrement() {
-        if (stackSize <= 0) {
+        if (this.stackSize <= 0) {
             return;
         }
-        stackSize--;
-        ImagePanel topFigure = figures.pop();
-        layeredPane.remove(topFigure);
-        layeredPane.revalidate();
-        layeredPane.repaint();
+        this.stackSize--;
+        this.removeFigure();
     }
 }

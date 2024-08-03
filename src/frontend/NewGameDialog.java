@@ -2,15 +2,22 @@ package frontend;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NewGameDialog extends JDialog {
     private String inputData;
+    private ArrayList<String> values = new ArrayList<>(Arrays.asList("lokales Spiel", "online Spiel", "KI (leicht)", "KI (mittel)", "KI (schwer)"));
+    private ArrayList<String> imagePaths = new ArrayList<>(Arrays.asList("res/black_king.png", "res/black_man.png", "res/white_king.png", "res/white_man.png", "res/current_player_indicator.png"));
+    private ArrayList<CustomButton> buttons = new ArrayList<>();
 
     public NewGameDialog(Frame parent) {
-        super(parent, "New Game", true);
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        super(parent, "Neues Spiel", true);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(null);
+        this.setLocationRelativeTo(null);
         this.setSize(276, 227);
+        this.setResizable(false);
 
         JLayeredPane layeredPane = new JLayeredPane();
         this.setContentPane(layeredPane);
@@ -21,19 +28,24 @@ public class NewGameDialog extends JDialog {
                 0,
                 4
         );
-
         layeredPane.add(boardBorder, JLayeredPane.DEFAULT_LAYER);
 
-        CustomButton okButton = new CustomButton(
-                0,
-                0,
-                "res/black_king.png",
-                layeredPane
-        );
-        okButton.addActionListener(e -> {
-            inputData = "test";
-            setVisible(false);
-        });
+        for (int i = 0; i < values.size(); i++) {
+            CustomButton button = new CustomButton(
+                    20,
+                    15 + i * 30,
+                    this.imagePaths.get(i),
+                    layeredPane
+            );
+            int finalI = i;
+            button.addActionListener(e -> {
+                    inputData = values.get(finalI);
+                    setVisible(false);
+            });
+
+            this.buttons.add(button);
+        }
+
     }
 
     public String getInputData() {
