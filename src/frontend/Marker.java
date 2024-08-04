@@ -6,7 +6,7 @@ import backend.utilities.Position;
 import java.awt.*;
 
 public class Marker extends ImagePanel {
-    public Position pos;
+    private Position pos;
     private final Move move;
 
     public Marker(Move move, Point startPosBoard) {
@@ -17,5 +17,9 @@ public class Marker extends ImagePanel {
 
     public Move getMove() {
         return this.move;
+    }
+
+    public Position getPos() {
+        return this.pos;
     }
 }

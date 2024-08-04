@@ -2,5 +2,9 @@ package backend.utilities;
 
 public enum Color {
     BLACK,
-    WHITE
+    WHITE;
+
+    public Color not() {
+        return this == BLACK ? WHITE : BLACK;
+    }
 }

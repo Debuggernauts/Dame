@@ -91,7 +91,7 @@ public class Figure {
                 marker.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
-                        System.out.println("Marker: " + marker.pos);
+                        System.out.println("Marker: " + marker.getPos());
                         gui.gameState.makeMove(marker.getMove());
                         gui.renderGameState(gui.gameState);
                     }

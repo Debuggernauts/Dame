@@ -2,8 +2,8 @@ package frontend;
 
 import java.awt.*;
 
-public class Background extends ImagePanel {
-    public Background(Point pos) {
+public class BackgroundPanel extends ImagePanel {
+    public BackgroundPanel(Point pos) {
         super("res/background.png", pos, 1);
     }
 }

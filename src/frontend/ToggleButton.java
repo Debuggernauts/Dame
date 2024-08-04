@@ -22,14 +22,14 @@ public class ToggleButton {
         this.firstStateImage.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                setFirstState(false); // TODO
+                setFirstState(false);
             }
         });
 
         this.secondStateImage.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                setFirstState(true); // TODO
+                setFirstState(true);
             }
         });
 

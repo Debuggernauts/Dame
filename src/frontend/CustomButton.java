@@ -9,34 +9,27 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomButton {
-    private final ImagePanel image;
+public class CustomButton extends ImagePanel {
     private final List<ActionListener> actionListeners = new ArrayList<>();
 
-    public CustomButton(Point pos, String path, JLayeredPane layeredPane) {
-        this.image = new ImagePanel(path, pos, 4);
+    public CustomButton(Point pos, String path) {
+        super(path, pos, 4);
 
-        layeredPane.add(this.image, JLayeredPane.DRAG_LAYER);
-
-        image.addMouseListener(new MouseAdapter() {
+        this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+                fireActionPerformed(new ActionEvent(CustomButton.this, ActionEvent.ACTION_PERFORMED, null));
             }
         });
     }
 
     private void fireActionPerformed(ActionEvent event) {
-        for (ActionListener listener : actionListeners) {
+        for (ActionListener listener : this.actionListeners) {
             listener.actionPerformed(event);
         }
     }
 
     public void addActionListener(ActionListener listener) {
-        actionListeners.add(listener);
-    }
-
-    public void setVisible(boolean visible) {
-        image.setVisible(visible);
+        this.actionListeners.add(listener);
     }
 }

@@ -20,7 +20,7 @@ public class CustomDecorator extends JComponent {
         );
         background.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 initialClick = e.getPoint();
                 background.getComponentAt(initialClick);
             }
@@ -28,8 +28,7 @@ public class CustomDecorator extends JComponent {
         background.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                int thisX;
-                thisX = gui.getLocation().x;
+                int thisX = gui.getLocation().x;
                 int thisY = gui.getLocation().y;
 
                 int xMoved = e.getX() - initialClick.x;

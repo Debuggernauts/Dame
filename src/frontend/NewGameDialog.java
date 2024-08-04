@@ -32,14 +32,14 @@ public class NewGameDialog extends JDialog {
         for (int i = 0; i < values.size(); i++) {
             CustomButton button = new CustomButton(
                     new Point(20, 15 + i * 30),
-                    this.imagePaths.get(i),
-                    layeredPane
+                    this.imagePaths.get(i)
             );
             int finalI = i;
             button.addActionListener(e -> {
                     inputData = values.get(finalI);
                     setVisible(false);
             });
+            layeredPane.add(button, JLayeredPane.MODAL_LAYER);
 
             this.buttons.add(button);
         }

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
-public class ImagePanel extends JPanel {
+public class ImagePanel extends JComponent {
     private final BufferedImage image;
     private final ImageIcon imageIcon;
     private final int scale;
@@ -30,9 +30,8 @@ public class ImagePanel extends JPanel {
             } else {
                 img = ImageIO.read(imageStream);
             }
-
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error loading image: " + e.getMessage(), e);
         }
 
         this.image = img;
@@ -40,7 +39,6 @@ public class ImagePanel extends JPanel {
         this.isGif = gifFlag;
 
         int width, height;
-
         if (this.isGif) {
             width = this.imageIcon.getIconWidth() * scale;
             height = this.imageIcon.getIconHeight() * scale;
@@ -51,6 +49,17 @@ public class ImagePanel extends JPanel {
 
         this.setOpaque(false);
         this.setBounds(pos.x, pos.y, width, height);
+        this.revalidate();
+        this.repaint();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        if (isGif) {
+            return new Dimension(imageIcon.getIconWidth() * scale, imageIcon.getIconHeight() * scale);
+        } else {
+            return image == null ? new Dimension(100, 100) : new Dimension(this.image.getWidth() * scale, this.image.getHeight() * scale);
+        }
     }
 
     @Override
