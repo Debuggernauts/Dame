@@ -42,7 +42,7 @@ public class Figure {
             @Override
             public void mouseReleased(MouseEvent e) {
                 setActive(true);
-                fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+                fireActionPerformed(new ActionEvent(Figure.this, ActionEvent.ACTION_PERFORMED, null));
             }
         });
 
@@ -50,7 +50,7 @@ public class Figure {
             @Override
             public void mouseReleased(MouseEvent e) {
                 setActive(false);
-                fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+                fireActionPerformed(new ActionEvent(Figure.this, ActionEvent.ACTION_PERFORMED, null));
             }
         });
     }

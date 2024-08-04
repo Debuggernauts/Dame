@@ -60,11 +60,11 @@ public class GUI extends JFrame {
         CustomDecorator decorator = new CustomDecorator(this);
 
         // Background Panel
-        BackgroundPanel background = new BackgroundPanel(new Point(0, 44));
+        BackgroundPanel background = new BackgroundPanel(new Point(0, 44), 1);
         this.layeredPane.add(background, JLayeredPane.DEFAULT_LAYER);
 
         // Board Image Panel
-        BoardPanel board = new BoardPanel(this.startPosBoard);
+        BoardPanel board = new BoardPanel(this.startPosBoard, 4);
         board.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -83,7 +83,8 @@ public class GUI extends JFrame {
 
         // stackHolder
         StackHolder stackHolder = new StackHolder(
-                new Point(this.startPosBlackBoard.x, this.startPosBlackBoard.y + 417)
+                new Point(this.startPosBlackBoard.x, this.startPosBlackBoard.y + 417),
+                4
         );
         this.layeredPane.add(stackHolder, JLayeredPane.MODAL_LAYER);
 

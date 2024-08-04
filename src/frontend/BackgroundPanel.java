@@ -3,7 +3,7 @@ package frontend;
 import java.awt.*;
 
 public class BackgroundPanel extends ImagePanel {
-    public BackgroundPanel(Point pos) {
-        super("res/background.png", pos, 1);
+    public BackgroundPanel(Point pos, int scale) {
+        super("res/background.png", pos, scale);
     }
 }

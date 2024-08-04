@@ -4,6 +4,7 @@ import backend.utilities.Color;
 import backend.utilities.Position;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameState {
     public ArrayList<Piece> pieces;
@@ -30,9 +31,9 @@ public class GameState {
                 new Position(0,5), new Position(2,5), new Position(4,5), new Position(6,5)
         };
         Position[] blackPos = new Position[] {
-                new Position(1,2), new Position(3,2), new Position(7,2), new Position(0,1),
-                new Position(2,1), new Position(4,1), new Position(6,1), new Position(1,0),
-                new Position(3,0), new Position(5,0), new Position(7,0), new Position(5,2)
+                new Position(1,2), new Position(3,2), new Position(5,2), new Position(7,2),
+                new Position(2,1), new Position(4,1), new Position(6,1), new Position(0,1),
+                new Position(3,0), new Position(5,0), new Position(7,0), new Position(1,0)
         };
 
         for (Position pos : blackPos) {
@@ -67,7 +68,7 @@ public class GameState {
         }
     }
 
-    // TODO: [Max] make sure only the moves with respect to the turn are calculated... Important for stalemate question
+    // TODO: [Max|Fabian] make sure only the moves with respect to the turn are calculated... Important for stalemate question
     ArrayList<Move> getAllValidMoves() {
         ArrayList<Move> allMoves = new ArrayList<>();
         for (Piece piece : pieces) {
@@ -114,8 +115,28 @@ public class GameState {
         pieces.set(pieces.indexOf(piece), new King(new Position(x,y), color));
     }
 
-    public ArrayList<Position> getAllEmptyPositions() {
-        // TODO [Max]
+    public ArrayList<Position> getAllEmptyPositions() { // TODO [Max|Fabian]
         return new ArrayList<>();
+    }
+
+    public GameState deepCopy(Objects objects) {
+        return this; // TODO: [Max|Fabian]
+    }
+
+    public boolean equal(Objects objects) {
+        return false; // TODO: [Max|Fabian]
+    }
+
+    public double evaluate() { // TODO: [Max|Fabian]
+        double score = 0.0;
+        /*
+        für BLACK +value
+        für WHITE +value
+            +1 für jeden Man
+            +4 für jeden King
+            +0.2 für jeden Schritt den ein Man nach vorne macht
+        */
+        // Ergebnis = BLACK - WHITE
+        return score;
     }
 }

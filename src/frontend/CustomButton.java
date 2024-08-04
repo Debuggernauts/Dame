@@ -18,7 +18,13 @@ public class CustomButton extends ImagePanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                fireActionPerformed(new ActionEvent(CustomButton.this, ActionEvent.ACTION_PERFORMED, null));
+                fireActionPerformed(
+                        new ActionEvent(
+                                CustomButton.this,
+                                ActionEvent.ACTION_PERFORMED,
+                                null
+                        )
+                );
             }
         });
     }

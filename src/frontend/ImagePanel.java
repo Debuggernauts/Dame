@@ -58,7 +58,9 @@ public class ImagePanel extends JComponent {
         if (isGif) {
             return new Dimension(imageIcon.getIconWidth() * scale, imageIcon.getIconHeight() * scale);
         } else {
-            return image == null ? new Dimension(100, 100) : new Dimension(this.image.getWidth() * scale, this.image.getHeight() * scale);
+            return image == null ?
+                    new Dimension(100, 100) :
+                    new Dimension(this.image.getWidth() * scale, this.image.getHeight() * scale);
         }
     }
 

@@ -15,7 +15,13 @@ public class ToggleButton {
     private boolean isFirstState = true;
     private final List<ActionListener> actionListeners = new ArrayList<>();
 
-    public ToggleButton(String firstStatePath, String secondStatePath, Point pos, boolean defaultState, JLayeredPane layeredPane) {
+    public ToggleButton(
+            String firstStatePath,
+            String secondStatePath,
+            Point pos,
+            boolean defaultState,
+            JLayeredPane layeredPane
+    ) {
         this.firstStateImage = new ImagePanel(firstStatePath, pos, 4);
         this.secondStateImage = new ImagePanel(secondStatePath, pos, 4);
 
